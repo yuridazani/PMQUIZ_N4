@@ -6,6 +6,7 @@ class ActivityItem extends StatelessWidget {
   final String subtitle;
   final String time;
   final bool isHighPriority;
+  final VoidCallback? onTap; // Tambahan interaksi
 
   const ActivityItem({
     super.key,
@@ -13,6 +14,7 @@ class ActivityItem extends StatelessWidget {
     required this.subtitle,
     required this.time,
     this.isHighPriority = false,
+    this.onTap,
   });
 
   @override
@@ -23,43 +25,50 @@ class ActivityItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          // PERBAIKAN: Hapus const karena .withValues()
           color: AppColors.khaki.withValues(alpha: 0.2),
         ),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            // PERBAIKAN: Gunakan withValues(alpha: ...)
-            color: isHighPriority
-                ? AppColors.coquelicot.withValues(alpha: 0.1)
-                : Colors.grey.shade100,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            isHighPriority
-                ? Icons.priority_high_rounded
-                : Icons.history_rounded,
-            color: isHighPriority ? AppColors.coquelicot : Colors.grey,
-            size: 20,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-        ),
-        trailing: Text(
-          time,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.khaki,
-            fontWeight: FontWeight.bold,
+      // ClipRRect memastikan efek ripple tidak keluar dari border radius
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(15),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            leading: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isHighPriority
+                    ? AppColors.coquelicot.withValues(alpha: 0.1)
+                    : Colors.grey.shade100,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isHighPriority
+                    ? Icons.priority_high_rounded
+                    : Icons.history_rounded,
+                color: isHighPriority ? AppColors.coquelicot : Colors.grey,
+                size: 20,
+              ),
+            ),
+            title: Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            ),
+            subtitle: Text(
+              subtitle,
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            ),
+            trailing: Text(
+              time,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.khaki,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),

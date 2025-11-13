@@ -8,7 +8,6 @@ class ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 8,
-      // PERBAIKAN: Ganti withOpacity dengan withValues
       shadowColor: AppColors.orangeWheel.withValues(alpha: 0.4),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
