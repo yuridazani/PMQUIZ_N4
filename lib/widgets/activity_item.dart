@@ -6,7 +6,7 @@ class ActivityItem extends StatelessWidget {
   final String subtitle;
   final String time;
   final bool isHighPriority;
-  final VoidCallback? onTap; // Tambahan interaksi
+  final VoidCallback? onTap;
 
   const ActivityItem({
     super.key,
@@ -20,54 +20,82 @@ class ActivityItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.khaki.withValues(alpha: 0.2),
+          color: isHighPriority
+              ? AppColors.coquelicot.withValues(alpha: 0.2)
+              : AppColors.khaki.withValues(alpha: 0.15),
         ),
       ),
-      // ClipRRect memastikan efek ripple tidak keluar dari border radius
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(15),
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            leading: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: isHighPriority
-                    ? AppColors.coquelicot.withValues(alpha: 0.1)
-                    : Colors.grey.shade100,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                isHighPriority
-                    ? Icons.priority_high_rounded
-                    : Icons.history_rounded,
-                color: isHighPriority ? AppColors.coquelicot : Colors.grey,
-                size: 20,
-              ),
-            ),
-            title: Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-            ),
-            subtitle: Text(
-              subtitle,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-            ),
-            trailing: Text(
-              time,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.khaki,
-                fontWeight: FontWeight.bold,
-              ),
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Container(
+                  height: 36,
+                  width: 36,
+                  decoration: BoxDecoration(
+                    color: isHighPriority
+                        ? AppColors.coquelicot.withValues(alpha: 0.1)
+                        : Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    isHighPriority
+                        ? Icons.priority_high_rounded
+                        : Icons.check_circle_outline,
+                    color: isHighPriority ? AppColors.coquelicot : Colors.grey,
+                    size: 18,
+                  ),
+                ),
+                
+                const SizedBox(width: 12),
+                
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: AppColors.black,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey.shade600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                
+                Text(
+                  time,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade500,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
